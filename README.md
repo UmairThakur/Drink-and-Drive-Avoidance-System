@@ -1,2 +1,2 @@
 # Drink-and-Drive-Avoidance-System
-![IoT based Alcohol Detection for Commercial Vehicles](https://github.com/UmairThakur/Drink-and-Drive-Avoidance-System/assets/81063457/09db2ec0-df30-4551-a662-a57813367ab3)
+![IoT based Alcohol Detection for Commercial Vehicles (1)](https://github.com/UmairThakur/Drink-and-Drive-Avoidance-System/assets/81063457/395bf491-436a-4c33-ba57-2c60143c86f7)
