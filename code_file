@@ -1,0 +1,100 @@
+#include <LiquidCrystal.h>
+LiquidCrystal lcd(5,6,8,9,10,11);
+  
+int redled = 2;
+int greenled = 3;
+int buzzer = 4;
+int sensor = A0;
+int sensor2 = A1;
+int sensorThresh = 400;//threshold value for drunk
+int sensorThresh2 = 315;//threshold value for drunk
+int speed = 7;
+
+void setup()
+{
+pinMode(redled, OUTPUT);
+pinMode(greenled,OUTPUT);
+pinMode(buzzer,OUTPUT);
+pinMode(sensor,INPUT);
+pinMode(sensor2,INPUT);
+pinMode(speed,OUTPUT);
+Serial.begin(9600);
+lcd.begin(16,2);
+}
+
+void loop()
+{
+  int analogValue = analogRead(sensor);//value read by gas sensor
+  Serial.print(analogValue);
+  if(analogValue>sensorThresh)//condition if drunk
+  {
+    digitalWrite(redled,HIGH);
+    digitalWrite(greenled,LOW);
+    //play the buzzer with a frquency=4000Hz for 10 seconds.
+    tone(buzzer,500,200);
+    lcd.clear();
+    lcd.setCursor(0,0);
+    lcd.print("Unsafe to Drive:");
+    lcd.setCursor(0,1);
+    lcd.print("ALCOHOL DETECTED.");
+    delay(1000);
+    lcd.clear();
+    lcd.setCursor(0,0);
+    lcd.print("Alerting Uber");
+    delay(500);
+    lcd.setCursor(0,1);
+    lcd.print("Hazard Light On");
+    delay(1000);
+    lcd.clear();
+    lcd.setCursor(0,0);
+    lcd.print("Slowing down the ");
+    delay(500);
+    lcd.setCursor(0,1);
+    lcd.print("car, pls park");
+    digitalWrite(speed,LOW);
+    delay(5000);
+  }
+  
+  //condition if safe
+  else
+  {
+    digitalWrite(greenled,HIGH);
+    digitalWrite(redled,LOW);
+    digitalWrite(speed,HIGH);
+    noTone(buzzer);
+    lcd.clear();
+    lcd.setCursor(0,0);
+    lcd.print("Safe to Drive:");
+    lcd.setCursor(0,1);
+    lcd.print("Driver Tested OK");
+    delay(1000);
+    //lcd.clear();
+    //delay(1000);
+  }  
+  
+  //value read by gas sensor2
+  int analogValue2 = analogRead(sensor2);
+  Serial.print(analogValue2);
+  
+  //condition if smell detected
+  if(analogValue2>sensorThresh2)   
+  {
+    digitalWrite(redled,HIGH);
+    digitalWrite(greenled,LOW);
+    lcd.clear();
+    lcd.setCursor(0,0);
+    lcd.print("Notifying to");
+    lcd.setCursor(0,1);
+    lcd.print("User and Uber");
+    delay(1000);
+    lcd.clear();
+    lcd.setCursor(0,0);
+    lcd.print("that car has");
+    lcd.setCursor(0,1);
+    lcd.print("Alcohol smell");
+    delay(1000);
+    lcd.clear();
+    delay(1000);
+    lcd.clear();
+  }  
+}
